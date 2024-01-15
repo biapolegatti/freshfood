@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -16,11 +17,16 @@ public class InboundOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    private Long orderNumber;
 
     private Date orderDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Section section;
+
+    @OneToMany(mappedBy = "inboundOrder")
+    private List<BatchStock> batchStock;
 
 }

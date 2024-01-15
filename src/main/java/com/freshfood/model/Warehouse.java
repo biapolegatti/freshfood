@@ -3,6 +3,7 @@ package com.freshfood.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @Getter
@@ -12,8 +13,12 @@ import javax.persistence.*;
 @Entity
 @Table
 public class Warehouse {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    @OneToMany(mappedBy = "warehouse")
+    private List<Supervisor> supervisors;
 
 }

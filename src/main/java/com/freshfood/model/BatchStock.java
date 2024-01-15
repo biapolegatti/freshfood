@@ -1,5 +1,6 @@
 package com.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,12 @@ public class BatchStock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "inboundorder_id")
+    @JsonIgnore
+    private InboundOrder inboundOrder;
 
     @OneToMany
     @JoinColumn(name = "batch_stock_id")
