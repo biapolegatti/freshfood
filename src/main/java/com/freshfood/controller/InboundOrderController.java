@@ -17,6 +17,7 @@ public class InboundOrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    //TODO: aqui precisa retornar o response
     public BatchStock create(@RequestBody InboundOrderRequest inboundOrderRequest) {
         return inboundorderService.create(inboundOrderRequest);
 

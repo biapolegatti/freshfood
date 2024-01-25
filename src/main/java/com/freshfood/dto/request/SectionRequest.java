@@ -5,19 +5,14 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
-
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class InboundOrderRequest {
+public class SectionRequest {
 
-    private Long orderNumber;
+    private Long sectionCode;
 
-    private Date orderDate;
-
-    private SectionRequest section;
-
-    private List<BatchStockRequest> batchStock;
+    private Long warehouseCode;
 }
+
+

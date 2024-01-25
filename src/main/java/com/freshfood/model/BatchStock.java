@@ -26,6 +26,7 @@ public class BatchStock {
     @JsonIgnore
     private InboundOrder inboundOrder;
 
+    //TODO: mudar esse mapeamento não é um list
     @OneToMany
     @JoinColumn(name = "batch_stock_id")
     private List<Product> productId;

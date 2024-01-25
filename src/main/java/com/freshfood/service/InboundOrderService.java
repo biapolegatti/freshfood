@@ -44,17 +44,14 @@ public class InboundOrderService {
 
 
     public BatchStock create(InboundOrderRequest inboundOrderRequest) {
+        var warehouse = warehouseService.findById(inboundOrderRequest.getSection().getSectionCode());
 
-        //busco o warehouse
-        var warehouse = warehouseService.findById(inboundOrderRequest.getSection().getWarehouse().getId());
+//        var supersivor = supervisorService.hasSupervisorInWarehouse(inboundOrderRequest.getSection().));
 
+//        var section = sectionService.findById(inboundOrderRequest.getSection().getId());
+//
+//        var productsId = inboundOrderRequest.getBatchStock().stream().map(BatchStock::getProductId).collect(Collectors.toList());
 
-        //busco o supervisor
-        var supersivor = supervisorService.hasSupervisorInWarehouse(inboundOrderRequest.getSection().getWarehouse().getSupervisors(),
-                inboundOrderRequest.getSection().getWarehouse());
-
-        //busco uma seção
-        var section = sectionService.findById(inboundOrderRequest.getSection().getId());
 
         //seção corresponde ao tipo de produto
 //        List<BatchStock> batchStocks = inboundOrderRequest.getBatchStock();
@@ -64,11 +61,11 @@ public class InboundOrderService {
 //                .collect(Collectors.toList());
 
 //        for (var productId : productIds) {
-//            boolean isValid = sectionService.isValidSectionWithProdutType(inboundOrderRequest.getSection(), productId);
-//
-//        }
+//        boolean isValid = sectionService.isValidSectionWithProdutType(inboundOrderRequest.getSection());
+////
+////        }
 
-        var sectionStorage = sectionService.isValidSectionStorage(inboundOrderRequest.getSection());
+//        var sectionStorage = sectionService.isValidSectionStorage(inboundOrderRequest.getSection());
 
 
 //        TODO: UTILIZAR MAPPER
