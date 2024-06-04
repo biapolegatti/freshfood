@@ -1,6 +1,6 @@
 package com.freshfood.enuns;
 
-public enum SectionTypesEnum {
+public enum SectionTypeEnum {
 
     FRESH,
     FROZEN,

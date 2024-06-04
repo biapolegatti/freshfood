@@ -1,6 +1,8 @@
 package com.freshfood.service;
 
-import com.freshfood.exception.BadRequestException;
+import com.freshfood.exception.NotFoundException;
+import com.freshfood.model.Supervisor;
+import com.freshfood.repository.SupervisorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,18 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SupervisorService {
 
-    private final WarehouseService warehouseService;
+    private SupervisorRepository supervisorRepository;
 
-
-    //Valida se o representante pertence ao armazém
-    public Boolean hasSupervisorInWarehouse(Long warehouseId, Long supervisorId) {
-        var warehouse = warehouseService.findById(warehouseId);
-        var supervisors = warehouse.getSupervisors().stream().anyMatch(s -> s.getId().equals(supervisorId));
-//validar
-        if (supervisors) {
-            return true;
-        }
-        throw new BadRequestException("Supervisor does not belong to the warehouse");
+    public Supervisor findById(Long supersivorId) {
+        return supervisorRepository.findById(supersivorId)
+                .orElseThrow(() -> new NotFoundException("Supervisor not found"));
     }
 }
-

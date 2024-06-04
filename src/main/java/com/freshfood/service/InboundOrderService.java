@@ -1,11 +1,16 @@
 package com.freshfood.service;
 
 
+import com.freshfood.dto.request.BatchStockRequest;
 import com.freshfood.dto.request.InboundOrderRequest;
-import com.freshfood.model.BatchStock;
+import com.freshfood.model.InboundOrder;
+import com.freshfood.model.Section;
 import com.freshfood.repository.InboundOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static com.freshfood.dto.mapper.InboundOrderMapper.toEntity;
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
@@ -15,85 +20,26 @@ public class InboundOrderService {
 
     private final WarehouseService warehouseService;
 
-    private final SupervisorService supervisorService;
-
     private final SectionService sectionService;
 
-    /*  private final BatchStockMapper batchStockMapper;*/
+    //TODO: adicionar validação no request, está faltando e continuar vendo aspectos de melhoria aqui no metodo de create
 
-    //InboundOrder = Pedido de entrada
-    //BatchStock = lote
-    //Warehouse = armazen
-    //Section = seção
+    public InboundOrder create(InboundOrderRequest inboundOrderRequest) {
+        warehouseService.findById(inboundOrderRequest.getSection().getWarehouseCode());
 
-    /*QUERO inserir um lote de produtos no armazém de distribuição PARA registrar a existência de estoque
+        var sectionUpdate = validateSection(inboundOrderRequest, inboundOrderRequest.getSection().getSectionCode());
 
-        E que o armazém é válido
+        return inboundorderRepository.save(toEntity(inboundOrderRequest, sectionUpdate));
+    }
 
-        E que o representante pertence ao armazém
+    private Section validateSection(InboundOrderRequest inboundOrderRequest, Long sectionId) {
+        var section = sectionService.findById(sectionId);
+        var products = inboundOrderRequest.getBatchStock().stream()
+                .map(BatchStockRequest::getProduct)
+                .collect(toList());
 
-        E que o setor é válido
-        E que o setor corresponde ao tipo de produto
-        E que o setor tenha espaço disponível
+        products.stream().allMatch(product -> sectionService.isValidSectionWithProductType(section, product.getSectionType()));
 
-        QUANDO o representante entra no setor
-        ENTÃO o registro de compra é criado
-
-        E o lote é atribuído a um setor
-        E o representante é associado ao registro de estoque*/
-
-
-    public BatchStock create(InboundOrderRequest inboundOrderRequest) {
-        var warehouse = warehouseService.findById(inboundOrderRequest.getSection().getSectionCode());
-
-//        var supersivor = supervisorService.hasSupervisorInWarehouse(inboundOrderRequest.getSection().));
-
-//        var section = sectionService.findById(inboundOrderRequest.getSection().getId());
-//
-//        var productsId = inboundOrderRequest.getBatchStock().stream().map(BatchStock::getProductId).collect(Collectors.toList());
-
-
-        //seção corresponde ao tipo de produto
-//        List<BatchStock> batchStocks = inboundOrderRequest.getBatchStock();
-//
-//        List<Product> productIds = batchStocks.stream()
-//                .map(BatchStock::getProductId)
-//                .collect(Collectors.toList());
-
-//        for (var productId : productIds) {
-//        boolean isValid = sectionService.isValidSectionWithProdutType(inboundOrderRequest.getSection());
-////
-////        }
-
-//        var sectionStorage = sectionService.isValidSectionStorage(inboundOrderRequest.getSection());
-
-
-//        TODO: UTILIZAR MAPPER
-//List  List      List<BatchStock> batchStockItens = batchStocks.stream()
-//
-//
-//        BatchStock.builder()
-//                .productId(batchStockItens.get)
-//                .currentTemperature(inboundOrderRequest.getBatchStock())
-//                .minimumTemperature()
-//                .initialQuantity()
-//                .currentQuantity()
-//                .manufacturingDate()
-//                .manufacturingTime()
-//                .dueDate()
-//                .build();
-
-
-
-
-     /*   Foo.builder()
-                .attribute1("Valor atributo 1")
-                .attribute2(42)
-                .attribute3(true)
-                .build();*/
-
-
-        return null;
-
+        return sectionService.addProductsInSection(inboundOrderRequest.getBatchStock(), section);
     }
 }

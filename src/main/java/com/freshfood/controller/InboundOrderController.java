@@ -1,26 +1,26 @@
 package com.freshfood.controller;
 
 
+import com.freshfood.dto.mapper.InboundOrderMapper;
 import com.freshfood.dto.request.InboundOrderRequest;
-import com.freshfood.model.BatchStock;
+import com.freshfood.dto.response.InboundOrderResponse;
 import com.freshfood.service.InboundOrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/inboundorder")
+@RequestMapping("/inbound-order")
 public class InboundOrderController {
 
-    private final InboundOrderService inboundorderService;
+    private final InboundOrderService inboundOrderService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    //TODO: aqui precisa retornar o response
-    public BatchStock create(@RequestBody InboundOrderRequest inboundOrderRequest) {
-        return inboundorderService.create(inboundOrderRequest);
-
+    public InboundOrderResponse create(@RequestBody InboundOrderRequest inboundOrderRequest) {
+        var inboundOrder = inboundOrderService.create(inboundOrderRequest);
+        return InboundOrderMapper.toResponse(inboundOrder);
     }
 }
-

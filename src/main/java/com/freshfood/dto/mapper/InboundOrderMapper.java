@@ -1,9 +1,24 @@
 package com.freshfood.dto.mapper;
 
-import org.mapstruct.Mapper;
+import com.freshfood.dto.request.InboundOrderRequest;
+import com.freshfood.dto.response.InboundOrderResponse;
+import com.freshfood.model.InboundOrder;
+import com.freshfood.model.Section;
 
-@Mapper
-public interface InboundOrderMapper {
+public class InboundOrderMapper {
 
-//    InboundOrder toEntity(InboundOrderRequest inboundOrderRequest);
+    public static InboundOrder toEntity(InboundOrderRequest inboundOrderRequest, Section section) {
+        return InboundOrder.builder()
+                .orderNumber(inboundOrderRequest.getOrderNumber())
+                .orderDate(inboundOrderRequest.getOrderDate())
+                .section(section)
+                .batchStock(BatchStockMapper.toEntities(inboundOrderRequest.getBatchStock()))
+                .build();
+    }
+
+    public static InboundOrderResponse toResponse(InboundOrder inboundOrder) {
+        return InboundOrderResponse.builder()
+                .batchStock(BatchStockMapper.toResponsies(inboundOrder.getBatchStock()))
+                .build();
+    }
 }

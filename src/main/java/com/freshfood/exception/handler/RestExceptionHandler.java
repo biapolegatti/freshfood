@@ -4,12 +4,12 @@ import com.freshfood.exception.BadRequestException;
 import com.freshfood.exception.ExceptionDetails;
 import com.freshfood.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class RestExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)

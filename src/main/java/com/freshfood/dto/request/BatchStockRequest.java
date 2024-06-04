@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BatchStockRequest {
 
-    private Integer batchNumber;
+    private Long batchNumber;
 
-    private Integer productId;
+    private ProductRequest product;
 
     private Float currentTemperature;
 
@@ -30,5 +30,5 @@ public class BatchStockRequest {
     private LocalDateTime manufacturingTime;
 
     private LocalDateTime dueDate;
-    
+
 }

@@ -1,17 +1,23 @@
-package com.freshfood.dto;
+package com.freshfood.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.freshfood.model.Product;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
+@Setter
+@Getter
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class BatchStockDto {
+public class BatchStockResponse {
 
-    private List<Product> productId;
+    private Long batchNumber;
+
+    private ProductResponse product;
 
     private Float currentTemperature;
 
@@ -26,4 +32,5 @@ public class BatchStockDto {
     private LocalDateTime manufacturingTime;
 
     private LocalDateTime dueDate;
+
 }
